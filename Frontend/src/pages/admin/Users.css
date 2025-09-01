@@ -1,0 +1,228 @@
+/* 🎨 Contenedor principal */
+.users-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px;
+  font-family: "Poppins", sans-serif;
+  color: #2d3748;
+}
+
+/* 🏷️ Título */
+.title-users {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 18px;
+  color: #1a237e;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* 🔍 Barra de búsqueda */
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: #f9fafc;
+  border-radius: 8px;
+  padding: 6px 10px;
+  margin-bottom: 20px;
+  border: 1.5px solid #cbd5e0;
+  transition: box-shadow 0.2s;
+}
+
+.search-bar:focus-within {
+  box-shadow: 0 0 0 2px #4e73df30;
+}
+
+.search-bar input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.95rem;
+  margin-left: 8px;
+  color: #2d3748;
+}
+
+.search-icon {
+  color: #4e73df;
+  font-size: 1rem;
+}
+
+/* 🆕 Formulario nuevo usuario */
+.card.user-form {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 18px;
+  margin-bottom: 24px;
+  border-left: 4px solid #4e73df;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.user-form h3 {
+  margin-bottom: 12px;
+  font-size: 1.2rem;
+  color: #4e73df;
+  font-weight: 600;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 10px;
+}
+
+.form-grid input,
+.form-grid select {
+  padding: 8px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: border 0.2s;
+}
+
+.form-grid input:focus,
+.form-grid select:focus {
+  border-color: #4e73df;
+  outline: none;
+}
+
+/* ➕ Botón agregar */
+.btn-add {
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.btn-add:hover {
+  background: #218838;
+}
+
+/* 📋 Tabla usuarios */
+.card.user-table {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 18px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.user-table h3 {
+  margin-bottom: 12px;
+  font-size: 1.2rem;
+  color: #1a237e;
+  font-weight: 600;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.user-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.user-table th, .user-table td {
+  padding: 10px;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: center;
+}
+
+.user-table th {
+  background: #1a237e;
+  color: white;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.user-table tr:hover {
+  background: #f9fafc;
+  transition: background 0.2s;
+}
+
+.no-data {
+  text-align: center;
+  padding: 18px;
+  font-style: italic;
+  color: #6b7280;
+}
+
+/* 🎨 Roles */
+.role-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+
+.role-badge.admin {
+  background: #e74a3b;
+  color: white;
+}
+
+.role-badge.moderador {
+  background: #f6c23e;
+  color: #2d3748;
+}
+
+.role-badge.jugador {
+  background: #36b9cc;
+  color: white;
+}
+
+/* 🎛 Botones */
+.btn-edit, .btn-delete {
+  border: none;
+  border-radius: 5px;
+  padding: 6px 10px;
+  margin: 0 2px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: 0.2s;
+}
+
+.btn-edit {
+  background: #f39c12;
+  color: white;
+}
+
+.btn-edit:hover {
+  background: #e67e22;
+}
+
+.btn-delete {
+  background: #e74a3b;
+  color: white;
+}
+
+.btn-delete:hover {
+  background: #c0392b;
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .btn-add {
+    width: 100%;
+  }
+  
+  .user-table th, .user-table td {
+    font-size: 0.75rem;
+    padding: 6px;
+  }
+}

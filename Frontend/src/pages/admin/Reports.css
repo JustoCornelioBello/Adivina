@@ -1,0 +1,158 @@
+/* 🎨 Contenedor principal */
+.reports-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: "Poppins", "Segoe UI", Tahoma, sans-serif;
+  color: #2d3748;
+}
+
+/* 📌 Encabezado */
+.reports-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.reports-header h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #1a237e;
+  letter-spacing: 0.5px;
+}
+
+/* 🔍 Caja de búsqueda */
+.search-box {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid #cbd5e0;
+  border-radius: 8px;
+  padding: 6px 10px;
+  background: #fff;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.search-box:focus-within {
+  border-color: #4e73df;
+  box-shadow: 0 0 0 2px rgba(78, 115, 223, 0.15);
+}
+
+.search-box .icon {
+  margin-right: 6px;
+  color: #4e73df;
+  font-size: 1rem;
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  font-size: 0.9rem;
+  color: #2d3748;
+  width: 180px;
+}
+
+/* 📤 Botones exportación */
+.export-buttons {
+  text-align: right;
+  margin-bottom: 14px;
+}
+
+.export-buttons button {
+  background: #f8fafc;
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  padding: 6px 14px;
+  margin-left: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+  color: #2d3748;
+}
+
+.export-buttons button:hover {
+  background: #edf2f7;
+  border-color: #a0aec0;
+}
+
+.export-buttons button.primary {
+  background: #4e73df;
+  color: white;
+  border: none;
+}
+
+.export-buttons button.primary:hover {
+  background: #3756c6;
+}
+
+/* 📊 Tabla de reportes */
+.table-wrapper {
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.reports-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.reports-table th, 
+.reports-table td {
+  padding: 12px;
+  border-bottom: 1px solid #edf2f7;
+  text-align: center;
+}
+
+.reports-table thead {
+  background: #1a237e;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+}
+
+.reports-table tbody tr:hover {
+  background: #f7fafc;
+  transition: background 0.2s;
+}
+
+/* ⏳ Estado de carga */
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 1rem;
+  color: #4a5568;
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+  .reports-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .search-box input {
+    width: 100%;
+  }
+
+  .export-buttons {
+    width: 100%;
+    text-align: left;
+    margin-top: 10px;
+  }
+
+  .reports-table th,
+  .reports-table td {
+    font-size: 0.8rem;
+    padding: 8px;
+  }
+}

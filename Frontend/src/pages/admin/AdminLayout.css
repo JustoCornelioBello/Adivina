@@ -1,0 +1,81 @@
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 240px;
+  background: #fff;
+  border-right: 1px solid #eaeaea;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 30px;
+  text-align: center;
+  color: #333;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+  flex-grow: 1;
+}
+
+.menu-item {
+  margin-bottom: 12px;
+}
+
+.menu-item a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  text-decoration: none;
+  color: #555;
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+  font-weight: 500;
+}
+
+.menu-item a:hover {
+  background: #f5f5f5;
+  color: #000;
+}
+
+.menu-item.active a {
+  background: #007bff;
+  color: #fff;
+}
+
+.logout-btn {
+  margin-top: auto;
+  padding: 10px 14px;
+  background: #dc3545;
+  border: none;
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: 0.2s;
+}
+
+.logout-btn:hover {
+  background: #b02a37;
+}
+
+/* Contenido principal */
+.content {
+  flex-grow: 1;
+  padding: 30px;
+  background: #f9f9f9;
+}
