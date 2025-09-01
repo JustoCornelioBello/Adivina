@@ -47,11 +47,23 @@ export function AuthProvider({ children }) {
     return () => unsub();
   }, []);
 
-  const login = async (email, password) => {
+ const login = async (email, password) => {
   try {
     const res = await signInWithEmailAndPassword(auth, email, password);
-    await updateDoc(doc(db, "users", res.user.uid), { lastLogin: serverTimestamp() });
-    return { ok: true };   // 👈 aseguramos return
+
+    // traemos su doc en Firestore
+    const userRef = doc(db, "users", res.user.uid);
+    const snap = await getDoc(userRef);
+
+    let userData = { uid: res.user.uid, email: res.user.email };
+    if (snap.exists()) {
+      userData = { ...userData, ...snap.data() };
+    }
+
+    setUser(userData); // 👈 lo seteamos inmediatamente
+    await updateDoc(userRef, { lastLogin: serverTimestamp() });
+
+    return { ok: true };
   } catch (err) {
     return { ok: false, msg: err.message };
   }
