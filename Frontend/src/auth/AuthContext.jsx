@@ -70,10 +70,13 @@ export function AuthProvider({ children }) {
 };
 
 
-  const register = async (username, email, password) => {
+const register = async (username, email, password) => {
+  try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     await updateProfile(res.user, { displayName: username });
-    await setDoc(doc(db, "users", res.user.uid), {
+
+    const userRef = doc(db, "users", res.user.uid);
+    await setDoc(userRef, {
       username,
       email,
       role: "jugador",
@@ -82,7 +85,24 @@ export function AuthProvider({ children }) {
       streak: 0,
       lastLogin: serverTimestamp(),
     });
-  };
+
+    // seteamos inmediatamente al usuario
+    setUser({
+      uid: res.user.uid,
+      email: res.user.email,
+      username,
+      role: "jugador",
+      xp: 0,
+      coins: 0,
+      streak: 0,
+    });
+
+    return { ok: true };
+  } catch (err) {
+    return { ok: false, msg: err.message };
+  }
+};
+
 
   const logout = () => signOut(auth);
 
