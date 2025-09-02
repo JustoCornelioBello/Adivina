@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://adivina-87icjftj1-justo-bellos-projects-4cae258d.vercel.app/sitemap.xml
