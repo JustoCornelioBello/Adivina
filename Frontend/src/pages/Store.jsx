@@ -6,9 +6,19 @@ import ChestModal from "../components/ChestModal";
 import { rollChestReward } from "../utils/rewards"; // función que ya usas en el juego
 import ConfirmModal from "../components/ConfirmModal";
 
+import { loadStripe } from "@stripe/stripe-js";
+
+import PaymentModal from "../components/PaymentModal";
+
 
 export default function Store() {
   const { user } = useAuth();
+
+
+
+
+  const [payModalOpen, setPayModalOpen] = useState(false);
+  const [selectedPack, setSelectedPack] = useState(null);
 
 
 
@@ -19,12 +29,12 @@ export default function Store() {
   const [confirmIcon, setConfirmIcon] = useState(null);
 
 
- const showConfirm = (title, msg, icon = "✅") => {
-  setConfirmTitle(title);
-  setConfirmMsg(msg);
-  setConfirmIcon(icon);
-  setConfirmOpen(true);
-};
+  const showConfirm = (title, msg, icon = "✅") => {
+    setConfirmTitle(title);
+    setConfirmMsg(msg);
+    setConfirmIcon(icon);
+    setConfirmOpen(true);
+  };
 
 
 
@@ -168,20 +178,20 @@ export default function Store() {
     }
   };
 
-  const buyPack = (pack) => {
-    // Simulación de compra real
-    if (pack.type === "coins") {
-      updateCoins(coins + pack.amount);
-    } else {
-      updateDiamonds(diamonds + pack.amount);
-    }
-    showConfirm(
-  "Compra exitosa",
-  `Compraste ${pack.amount} ${pack.type === "coins" ? "monedas 🪙" : "diamantes 💎"} (${pack.price})`,
-  pack.type === "coins" ? "🪙" : "💎"
-);
 
+
+
+  const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+
+
+
+  const buyPack = (pack) => {
+    setSelectedPack(pack);
+    setPayModalOpen(true);
   };
+
+
+
 
   // ============================
   // TRUEQUE
@@ -250,7 +260,7 @@ export default function Store() {
             <h5>
               {pack.amount} {pack.type === "coins" ? "🪙 Oro" : "💎 Diamantes"}
             </h5>
-            <p>Compra con dinero real</p>
+            <p>Compra con tarjeta</p>
             <span className="price">{pack.price}</span>
             <button className="btn-buy success" onClick={() => buyPack(pack)}>
               Comprar
@@ -259,24 +269,40 @@ export default function Store() {
         ))}
       </div>
 
+
+
+      <PaymentModal
+        open={payModalOpen}
+        pack={selectedPack}
+        onClose={() => setPayModalOpen(false)}
+        onSuccess={(pack) => {
+          if (pack.type === "coins") {
+            setCoins(coins + pack.amount);
+          } else {
+            setDiamonds(diamonds + pack.amount);
+          }
+        }}
+      />
+
+
       <ChestModal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         reward={reward}
       />
       <ConfirmModal
-  open={confirmOpen}
-  onClose={() => setConfirmOpen(false)}
-  title={confirmTitle}
-  message={
-    <>
-      <div style={{ fontSize: "32px", marginBottom: "8px" }}>
-        {confirmIcon}
-      </div>
-      <p>{confirmMsg}</p>
-    </>
-  }
-/>
+        open={confirmOpen}
+        onClose={() => setConfirmOpen(false)}
+        title={confirmTitle}
+        message={
+          <>
+            <div style={{ fontSize: "32px", marginBottom: "8px" }}>
+              {confirmIcon}
+            </div>
+            <p>{confirmMsg}</p>
+          </>
+        }
+      />
 
 
 
