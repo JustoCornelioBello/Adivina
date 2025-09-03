@@ -178,66 +178,69 @@ export default function Game(props) {
   const isCorrect = opt === currentQ.answer;
   const activeMult = getActiveMultiplier(mult);
 
-  if (isCorrect) {
-    play(sfx.correct);
+ if (isCorrect) {
+  play(sfx.correct);
 
-    const gainedXP = Math.round(BASE_XP * activeMult);
-    const newXP = xp + gainedXP;
-    const oldLevel = getLevelFromXP(xp);
-    const newLevel = getLevelFromXP(newXP);
+  const gainedXP = Math.round(BASE_XP * activeMult);
+  const newXP = xp + gainedXP;
+  const oldLevel = getLevelFromXP(xp);
+  const newLevel = getLevelFromXP(newXP);
 
-    const newScore = score + 1;
-    const newStreak = streak + 1;
-    const newCoins = coins + COINS_PER_CORRECT;
+  const newScore = score + 1;
+  const newStreak = streak + 1;
+  const newCoins = coins + COINS_PER_CORRECT;
 
-    // ⬇️ Estados locales
-    setXp(newXP);
-    setScore(newScore);
-    setStreak(newStreak);
-    setLastXpKey((k) => k + 1);
-    setMotKey((k) => k + 1);
-    updateCoins(newCoins);
+  // ⬇️ Estados locales
+  setXp(newXP);
+  setScore(newScore);
+  setStreak(newStreak);
+  setLastXpKey((k) => k + 1);
+  setMotKey((k) => k + 1);
+  updateCoins(newCoins);
 
-    // ⬇️ Actualizar en Firebase
-    if (user && user.uid) {
-      updateUserStats(user.uid, {
-        xp: newXP,
-        coins: newCoins,
-        streak: newStreak,
-      });
-    }
-
-    // ⬇️ Misiones
-    updateMissionsProgress(user, { type: "answered", amount: 1 });
-    updateMissionsProgress(user, { type: "coins", amount: COINS_PER_CORRECT });
-    updateMissionsProgress(user, { type: "streak", extra: { streak: newStreak } });
-    if (newLevel > oldLevel) {
-      updateMissionsProgress(user, { type: "level", extra: { level: newLevel } });
-    }
-
-
-
-
-
-    // 🔚 Feedback + avanzar
-setFeedback("correct");
-setTimeout(() => {
-  setDisabledOptions(new Set());
-  setFilteredOptions([]);
-  setFeedback(null);
-
-  const nextIndex = current + 1;
-  const finished = nextIndex >= questions.length;
-  if (finished) {
-    navigate("/result", { state: { xp: newXP, score: newScore, total: questions.length } });
-  } else {
-    setCurrent(nextIndex);
+  // ⬇️ Actualizar en Firebase
+  if (user && user.uid) {
+    updateUserStats(user.uid, {
+      xp: newXP,
+      coins: newCoins,
+      streak: newStreak,
+    });
   }
-}, 300);
 
+  // ⬇️ Misiones
+  updateMissionsProgress(user, { type: "answered", amount: 1 });
+  updateMissionsProgress(user, { type: "coins", amount: COINS_PER_CORRECT });
+  updateMissionsProgress(user, { type: "streak", extra: { streak: newStreak } });
+  if (newLevel > oldLevel) {
+    updateMissionsProgress(user, { type: "level", extra: { level: newLevel } });
+  }
 
-    // resto de tu lógica de cofres, feedback, navegación...
-  } else {
+  // 🎁 Cofre cada 5 preguntas correctas
+  if (newScore % 5 === 0) {
+    const reward = rollChestReward(); // 👈 usa tu helper
+    setPendingReward(reward);
+    setModalOpen(true);
+  }
+
+  // 🔚 Feedback + avanzar
+  setFeedback("correct");
+  setTimeout(() => {
+    setDisabledOptions(new Set());
+    setFilteredOptions([]);
+    setFeedback(null);
+
+    const nextIndex = current + 1;
+    const finished = nextIndex >= questions.length;
+    if (finished) {
+      navigate("/result", {
+        state: { xp: newXP, score: newScore, total: questions.length },
+      });
+    } else {
+      setCurrent(nextIndex);
+    }
+  }, 300);
+}
+ else {
     // lógica cuando falla la respuesta...
 
   // ❌ Respuesta incorrecta
