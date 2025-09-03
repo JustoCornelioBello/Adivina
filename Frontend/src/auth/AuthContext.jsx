@@ -1,4 +1,3 @@
-// src/auth/AuthContext.jsx
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { auth, db } from "../firebaseConfig";
 import {
@@ -14,7 +13,11 @@ import {
   setDoc,
   serverTimestamp,
   updateDoc,
+  collection,
+  onSnapshot,
 } from "firebase/firestore";
+
+import NotificationModal from "../components/NotificationModal";
 
 const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
@@ -23,7 +26,40 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Vigilar cambios de sesión
+  // 📌 Notificaciones
+  const [notif, setNotif] = useState(null);
+  const [showNotif, setShowNotif] = useState(false);
+
+  // 👉 Listener para notificaciones
+useEffect(() => {
+  if (user?.uid) {
+    const unsub = onSnapshot(
+      collection(db, "users", user.uid, "notifications"),
+      (snap) => {
+        snap.docChanges().forEach(async (change) => {
+          if (change.type === "added") {
+            const notifData = change.doc.data();
+
+            // 👉 si ya fue vista, no la mostramos
+            if (notifData.seen) return;
+
+            // ✅ mostrarla solo una vez
+            setNotif(notifData);
+            setShowNotif(true);
+
+            // 🔖 marcar como vista para que no vuelva a salir
+            await updateDoc(change.doc.ref, { seen: true });
+          }
+        });
+      }
+    );
+    return () => unsub();
+  }
+}, [user]);
+
+
+
+  // 👉 Listener de sesión
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
@@ -37,7 +73,6 @@ export function AuthProvider({ children }) {
             ...userSnap.data(),
           });
         } else {
-          // Si no existe el doc en Firestore, lo creamos
           await setDoc(userRef, {
             username: firebaseUser.displayName || "Jugador",
             email: firebaseUser.email,
@@ -45,6 +80,7 @@ export function AuthProvider({ children }) {
             xp: 0,
             coins: 0,
             streak: 0,
+            status: "active",
             lastLogin: serverTimestamp(),
           });
           setUser({
@@ -62,7 +98,7 @@ export function AuthProvider({ children }) {
     return () => unsub();
   }, []);
 
-  // ---- Métodos ----
+  // Métodos de autenticación
   const login = async (email, password) => {
     try {
       const res = await signInWithEmailAndPassword(auth, email, password);
@@ -96,6 +132,7 @@ export function AuthProvider({ children }) {
         xp: 0,
         coins: 0,
         streak: 0,
+        status: "active",
         lastLogin: serverTimestamp(),
       });
 
@@ -107,6 +144,7 @@ export function AuthProvider({ children }) {
         xp: 0,
         coins: 0,
         streak: 0,
+        status: "active",
       });
 
       return { ok: true };
@@ -120,12 +158,10 @@ export function AuthProvider({ children }) {
   const loginAsGuest = () =>
     setUser({ isGuest: true, username: "Invitado" });
 
-  // 👉 Nueva función updateProfile (la que necesitas en ProfileSettings)
   const updateProfileData = async (updates) => {
     try {
       if (!user?.uid) throw new Error("No hay usuario logueado");
 
-      // 1. Si hay username o avatar, actualizamos en Firebase Auth
       if (updates.username || updates.avatarUrl) {
         await fbUpdateProfile(auth.currentUser, {
           displayName: updates.username || user.username,
@@ -133,13 +169,9 @@ export function AuthProvider({ children }) {
         });
       }
 
-      // 2. Actualizamos Firestore
       const userRef = doc(db, "users", user.uid);
-      await updateDoc(userRef, {
-        ...updates,
-      });
+      await updateDoc(userRef, updates);
 
-      // 3. Actualizamos estado local
       const newUser = { ...user, ...updates };
       setUser(newUser);
 
@@ -161,6 +193,12 @@ export function AuthProvider({ children }) {
       ) : (
         children
       )}
+
+      <NotificationModal
+        open={showNotif}
+        onClose={() => setShowNotif(false)}
+        notification={notif}
+      />
     </AuthContext.Provider>
   );
 }
