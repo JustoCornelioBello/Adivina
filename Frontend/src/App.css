@@ -979,48 +979,191 @@ input[type="range"] {
   to { opacity: 1; transform: translateY(-5px); }
 }
 
+/* Actualizacion de interfaz */
 
 
 
-
+/* NAV container */
 .nav-col {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 0.6rem;
+  padding: 1rem;
 }
 
+/* Cada item */
 .nav-item {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.7rem 1rem;
+  gap: 0.8rem;
+  padding: 0.8rem 1rem;
   border-radius: 12px;
   font-weight: 500;
-  color: #191414;
-  transition: all 0.25s ease-in-out;
+  font-size: 0.95rem;
+  color: #2b2d42;
+  text-decoration: none;
+  transition: all 0.3s ease;
 }
 
+/* Efecto hover */
 .nav-item:hover {
-  background: rgba(255, 255, 255, 0.08);
-  transform: translateX(5px);
+  background: linear-gradient(90deg, rgba(0,0,0,0.05), rgba(0,0,0,0.02));
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  transform: translateX(6px);
 }
 
-/* Iconos con colores únicos */
-.home-ico   { color: #4dabf7; }   /* azul */
-.game-ico   { color: #51cf66; }   /* verde */
-.store-ico  { color: #fcc419; }   /* dorado */
-.profile-ico{ color: #845ef7; }   /* violeta */
-.mission-ico{ color: #ff6b6b; }   /* rojo coral */
+/* ACTIVE link */
+.nav-item.active {
+  background: linear-gradient(90deg, #4dabf7 0%, #228be6 100%);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(34,139,230,0.4);
+}
 
+.nav-item.active .nav-ico {
+  color: #fff !important;
+  text-shadow: 0 0 8px rgba(255,255,255,0.8);
+}
+
+/* Iconos */
 .nav-ico {
-  font-size: 1.3rem;
-  transition: transform 0.2s ease, color 0.2s ease;
+  font-size: 1.2rem;
+  transition: transform 0.25s ease, text-shadow 0.25s ease;
 }
 
 .nav-item:hover .nav-ico {
-  transform: scale(1.2);
+  transform: scale(1.15);
+  text-shadow: 0 0 6px rgba(0,0,0,0.3);
+}
+
+/* Colores únicos */
+.home-ico    { color: #228be6; }  /* Azul */
+.game-ico    { color: #40c057; }  /* Verde */
+.store-ico   { color: #f59f00; }  /* Dorado */
+.profile-ico { color: #ae3ec9; }  /* Violeta */
+.mission-ico { color: #e03131; }  /* Rojo coral */
+.config-ico  { color: #495057; }  /* Gris elegante */
+
+/* Divider */
+.nav-divider {
+  margin: 1.2rem 0 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #868e96;
 }
 
 
 
 
+
+
+
+/* General */
+.home-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 2rem;
+}
+
+/* Hero */
+.hero {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.hero-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #1c1e26;
+}
+.hero-title span {
+  color: #4dabf7;
+}
+.hero-subtitle {
+  color: #495057;
+  margin-top: 0.5rem;
+  font-size: 1.1rem;
+}
+
+/* Tutorial grid */
+.tutorial-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.2rem;
+  margin-bottom: 2.5rem;
+}
+.tutorial-step {
+  background: #fff;
+  border-radius: 14px;
+  padding: 1.2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  text-align: center;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.tutorial-step:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+/* Extras grid */
+.extras-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+.extra-card {
+  background: linear-gradient(135deg, #f8f9fa, #ffffff);
+  border-radius: 16px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.25s ease;
+}
+.extra-card:hover {
+  transform: translateY(-5px) scale(1.02);
+}
+
+/* Iconos */
+.icon {
+  font-size: 2rem;
+  margin-bottom: 0.6rem;
+}
+.yellow { color: #f59f00; }
+.red { color: #e03131; }
+.green { color: #2f9e44; }
+.blue { color: #228be6; }
+.gold { color: #fab005; }
+.purple { color: #ae3ec9; }
+.orange { color: #fd7e14; }
+.teal { color: #20c997; }
+
+/* Botones */
+.actions-row {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+.btn {
+  padding: 0.8rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+.btn.primary {
+  background: linear-gradient(90deg, #4dabf7, #228be6);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(34, 139, 230, 0.4);
+}
+.btn.primary:hover {
+  transform: translateY(-3px);
+}
+.btn.outline {
+  border: 2px solid #228be6;
+  color: #228be6;
+  background: transparent;
+}
+.btn.outline:hover {
+  background: rgba(34, 139, 230, 0.08);
+}
