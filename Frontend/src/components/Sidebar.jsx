@@ -20,27 +20,21 @@ export default function Sidebar({ isOpen, onClose }) {
           Trivia <span className="brand-dot">•</span> Ventura
         </div>
 
-        <nav className="nav-col">
-          <NavLink to="/" end className="nav-item" onClick={onClose}>
-            <FaHome className="nav-ico" /> {t("home")}
-          </NavLink>
-          <NavLink to="/game" className="nav-item" onClick={onClose}>
-            <FaGamepad className="nav-ico" /> {t("game")}
-          </NavLink>
-          <NavLink to="/store" className="nav-item" onClick={onClose}>
-            <FaStore className="nav-ico" /> {t("store")}
-          </NavLink>
-          <NavLink to="/profile" className="nav-item" onClick={onClose}>
-            <FaUser className="nav-ico" /> {t("profile")}
-          </NavLink>
-          <NavLink to="/missions" className="nav-item"><FaCalendar/> Misiones</NavLink>
-
-
-          <div className="nav-divider">{t("settings")}</div>
-          <NavLink to="/config" className="nav-item" onClick={onClose}>
-            <FaCog className="nav-ico" /> {t("settings")}
-          </NavLink>
-        </nav>
+        <NavLink to="/" end className="nav-item" onClick={onClose}>
+  <FaHome className="nav-ico home-ico" /> {t("home")}
+</NavLink>
+<NavLink to="/game" className="nav-item" onClick={onClose}>
+  <FaGamepad className="nav-ico game-ico" /> {t("game")}
+</NavLink>
+<NavLink to="/store" className="nav-item" onClick={onClose}>
+  <FaStore className="nav-ico store-ico" /> {t("store")}
+</NavLink>
+<NavLink to="/profile" className="nav-item" onClick={onClose}>
+  <FaUser className="nav-ico profile-ico" /> {t("profile")}
+</NavLink>
+<NavLink to="/missions" className="nav-item" onClick={onClose}>
+  <FaCalendar className="nav-ico mission-ico" /> Misiones
+</NavLink>
 
         <div className="sidebar-footer">
           <div className="muted">v1.0 • aprecien mi trabajo prietos</div>

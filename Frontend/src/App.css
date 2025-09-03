@@ -983,6 +983,43 @@ input[type="range"] {
 
 
 
+.nav-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 1rem;
+  border-radius: 12px;
+  font-weight: 500;
+  color: #191414;
+  transition: all 0.25s ease-in-out;
+}
+
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateX(5px);
+}
+
+/* Iconos con colores únicos */
+.home-ico   { color: #4dabf7; }   /* azul */
+.game-ico   { color: #51cf66; }   /* verde */
+.store-ico  { color: #fcc419; }   /* dorado */
+.profile-ico{ color: #845ef7; }   /* violeta */
+.mission-ico{ color: #ff6b6b; }   /* rojo coral */
+
+.nav-ico {
+  font-size: 1.3rem;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.nav-item:hover .nav-ico {
+  transform: scale(1.2);
+}
 
 
 
