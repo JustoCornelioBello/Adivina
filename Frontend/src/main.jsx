@@ -5,6 +5,7 @@ import App from "./App";
 import { AuthProvider } from "./auth/AuthContext";
 import { LangProvider } from "./contexts/LangContext";
 import { AudioProvider } from "./contexts/AudioContext"; // 👈 IMPORTANTE
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
