@@ -287,7 +287,7 @@ export default function Store() {
 
       <ChestModal
         open={modalOpen}
-        onClose={() => setModalOpen(false)}
+        onClose={() => setModalOpen({ ...modal, open: false })}
         reward={reward}
       />
       <ConfirmModal
