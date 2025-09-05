@@ -1,0 +1,91 @@
+.users-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+}
+
+.user-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  transition: transform 0.2s ease;
+}
+
+.user-item:hover {
+  transform: scale(1.02);
+  background: #eef1f5;
+}
+
+.user-name {
+  font-weight: 600;
+}
+
+.bot-option {
+  margin: 16px 0;
+  text-align: center;
+}
+
+.config {
+  margin-top: 12px;
+}
+
+.config label {
+  font-size: 14px;
+  color: #444;
+}
+
+
+
+
+
+
+.users-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.user-card {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fafafa;
+  align-items: center;
+}
+.history-list {
+  margin-top: 10px;
+}
+.history-item {
+  padding: 8px;
+  margin: 4px 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.history-item.success { background: #e6ffed; }
+.history-item.danger { background: #ffe6e6; }
+.history-item.pending { background: #fff6e6; }
+.chatbox {
+  margin-top: 16px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fefefe;
+}
+.chat-input {
+  display: flex;
+  margin-top: 8px;
+}
+.chat-input input {
+  flex: 1;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+.chat-input button {
+  margin-left: 6px;
+}

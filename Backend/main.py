@@ -1,27 +1,37 @@
-from fastapi import FastAPI, HTTPException
+# main.py
+from fastapi import FastAPI, HTTPException, Body
 from fastapi.middleware.cors import CORSMiddleware
-import stripe
-import os, json
-from dotenv import load_dotenv
-from firebase_config import db
 from pydantic import BaseModel
-from fastapi import Body
 from datetime import datetime
+import stripe, os
+from dotenv import load_dotenv
+
+# Firebase
+from firebase_config import db
+
+# Routers
+from routes import multiplayer
 
 # ============================
-# Cargar variables
+# Cargar variables de entorno
 # ============================
 load_dotenv()
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 
-app = FastAPI()
+# ============================
+# FastAPI App
+# ============================
+app = FastAPI(title="Backend Adivina 🚀")
+
+# Incluir router de multiplayer
+app.include_router(multiplayer.router, prefix="/multiplayer", tags=["multiplayer"])
 
 # ============================
 # CORS
 # ============================
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],   # ⚠️ en producción pon dominio real
+    allow_origins=["*"],   # ⚠️ en producción pon tu dominio real
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -37,6 +47,7 @@ class UserUpdate(BaseModel):
     coins: int | None = None
     streak: int | None = None
     status: str | None = None  # activo/suspendido
+
 
 # ============================
 # USUARIOS
@@ -77,6 +88,7 @@ def delete_user(user_id: str):
 
 @app.post("/users/{user_id}/suspend")
 def suspend_user(user_id: str):
+    """Suspender usuario"""
     ref = db.collection("users").document(user_id)
     if not ref.get().exists:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
@@ -85,6 +97,7 @@ def suspend_user(user_id: str):
 
 @app.post("/users/{user_id}/unsuspend")
 def unsuspend_user(user_id: str):
+    """Reactivar usuario suspendido"""
     ref = db.collection("users").document(user_id)
     if not ref.get().exists:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
@@ -107,8 +120,8 @@ def download_user(user_id: str):
     snap = ref.get()
     if not snap.exists:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
-    data = {"id": snap.id, **snap.to_dict()}
-    return data
+    return {"id": snap.id, **snap.to_dict()}
+
 
 # ============================
 # REPORTES GLOBALES
@@ -118,6 +131,7 @@ def global_report():
     """Genera estadísticas globales del sistema"""
     users_ref = db.collection("users").stream()
     users = [doc.to_dict() for doc in users_ref]
+
     total_users = len(users)
     activos = sum(1 for u in users if u.get("status") != "suspended")
     suspendidos = sum(1 for u in users if u.get("status") == "suspended")
@@ -131,8 +145,9 @@ def global_report():
         "suspendidos": suspendidos,
         "xp_total": xp_total,
         "coins_total": coins_total,
-        "top_user": top_user
+        "top_user": top_user,
     }
+
 
 # ============================
 # ZONA ROJA
@@ -148,7 +163,9 @@ def delete_all_users():
     return {"ok": True, "msg": f"Se eliminaron {count} usuarios"}
 
 
-
+# ============================
+# NOTIFICACIONES
+# ============================
 @app.post("/users/{user_id}/notify")
 def notify_user(user_id: str, data: dict = Body(...)):
     """
@@ -169,7 +186,6 @@ def notify_user(user_id: str, data: dict = Body(...)):
     ref.collection("notifications").add(notif)
     return {"ok": True, "msg": f"Notificación enviada a {user_id}", "notif": notif}
 
-
 @app.post("/users/notify_all")
 def notify_all(data: dict = Body(...)):
     """Enviar notificación a TODOS los usuarios"""
@@ -186,12 +202,8 @@ def notify_all(data: dict = Body(...)):
     return {"ok": True, "msg": "Notificación global enviada"}
 
 
-
-
-
-
 # ============================
-# STRIPE
+# STRIPE - Pagos
 # ============================
 @app.post("/create-payment-intent")
 async def create_payment_intent(data: dict):
@@ -205,6 +217,7 @@ async def create_payment_intent(data: dict):
         return {"clientSecret": intent.client_secret}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
 
 def calculate_amount(data):
     """Convierte packs a precio en centavos"""

@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { FaHome, FaGamepad, FaStore, FaUser, FaCog, FaCalendar } from "react-icons/fa";
+import { FaHome, FaGamepad, FaStore, FaUser, FaCog, FaCalendar, FaShieldAlt } from "react-icons/fa";
 import { useAuth } from "../auth/AuthContext";
 import { useLang } from "../contexts/LangContext";
 
@@ -27,6 +27,12 @@ export default function Sidebar({ isOpen, onClose }) {
   <NavLink to="/game" className="nav-item" onClick={onClose}>
     <FaGamepad className="nav-ico game-ico" /> {t("game")}
   </NavLink>
+  {/* 🎯 Nuevo: Multijugador */}
+        <div className="nav-group">
+          <NavLink to="/multiplayer" className="nav-item">
+            <FaShieldAlt/> Multijugador
+          </NavLink>
+        </div>
   <NavLink to="/store" className="nav-item" onClick={onClose}>
     <FaStore className="nav-ico store-ico" /> {t("store")}
   </NavLink>
@@ -41,6 +47,7 @@ export default function Sidebar({ isOpen, onClose }) {
   <NavLink to="/config" className="nav-item" onClick={onClose}>
     <FaCog className="nav-ico config-ico" /> {t("settings")}
   </NavLink>
+  
 </nav>
 
 

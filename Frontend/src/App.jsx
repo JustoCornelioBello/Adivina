@@ -33,6 +33,13 @@ import AdminLayout from "./pages/admin/AdminLayout.jsx";
 
 import AdminRoute from "./auth/AdminRoute"; // 👈 importa el protector
 
+import BotBattle from "./pages/multiplayer/BotBattle";
+
+
+// ⬇️ Páginas multijugador
+import ChallengeLobby from "./pages/multiplayer/ChallengeLobby";
+import DuelRoom from "./pages/multiplayer/DuelRoom";
+
 
 
 import "./App.css";
@@ -84,6 +91,28 @@ export default function App() {
                     />
                   </ProtectedRoute>
                 } />
+                <Route path="/multiplayer/botbattle" element={<BotBattle />} />
+
+
+   {/* 🎮 Multijugador */}
+              <Route
+                path="/multiplayer"
+                element={
+                  <ProtectedRoute>
+                    <ChallengeLobby />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/multiplayer/duel/:challengeId"
+                element={
+                  <ProtectedRoute>
+                    <DuelRoom />
+                  </ProtectedRoute>
+                }
+              />
+
+
                 <Route path="/store" element={
                   <ProtectedRoute>
                     <Store
